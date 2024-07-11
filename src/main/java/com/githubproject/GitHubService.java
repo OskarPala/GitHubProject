@@ -1,7 +1,5 @@
 package com.githubproject;
 
-import feign.FeignException;
-import feign.RetryableException;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,53 +14,31 @@ public class GitHubService {
     @Autowired
     GitHubApiProxy gitHubApiProxy;
 
-    public List<AllInfoResult> makeRequestToGithubEndpoint(String userName) {
-        List<AllInfoResult> resultList = new ArrayList<>();
 
 
-        try {
-
-            return getAllInfoResults(userName);
-
-
-        } catch (FeignException.FeignClientException feignException) {
-            log.error("client exception: {}", feignException.status());
-        } catch (FeignException.FeignServerException feignException) {
-            System.out.println("server exception: " + feignException.status());
-        } catch (RetryableException retryableException) {
-            System.out.println("retryable exception: " + retryableException.status());
-        } catch (FeignException feignException) {
-            System.out.println(feignException.getMessage());
-            System.out.println(feignException.status());
-        }
-        return resultList;
-    }
-
-    private List<AllInfoResult> getAllInfoResults(String userName) {
+    public List<AllInfoResult> getAllInfoResults(String userName) {
         List<AllInfoResult> resultList1 = new ArrayList<>();
-        List<RepositoryDto> filteredResult = getAllFilteredRepository(userName);
+        List<ServiceRepositoryDto> filteredResult = getAllFilteredRepository(userName);
 
 
-        for (RepositoryDto repositoryDto : filteredResult) {
+        for (ServiceRepositoryDto serviceRepositoryDto : filteredResult) {
 
-            String owner = repositoryDto.owner().login();
-            String repositoryName = repositoryDto.name();
+            String owner = serviceRepositoryDto.owner().login();
+            String repositoryName = serviceRepositoryDto.name();
 
-            List<Branch> branch = getBranchDtos(owner, repositoryDto.name());
+            List<Branch> branch = getBranchDtos(owner, serviceRepositoryDto.name());
             AllInfoResult allInfoResult = new AllInfoResult(repositoryName, owner, branch);
             resultList1.add(allInfoResult);
-
-
 
 
         }
         return resultList1;
     }
 
-    private List<RepositoryDto> getAllFilteredRepository(String username) {
-        List<RepositoryDto> results = gitHubApiProxy.getRepos(username);
+    private List<ServiceRepositoryDto> getAllFilteredRepository(String username) {
+        List<ServiceRepositoryDto> results = gitHubApiProxy.getRepos(username);
         return results.stream()
-                .filter(repositoryDto -> !repositoryDto.fork())
+                .filter(serviceRepositoryDto -> !serviceRepositoryDto.fork())
                 .collect(Collectors.toList());
     }
 
@@ -71,7 +47,7 @@ public class GitHubService {
         return MapFromBranchesDtoToBranches(result);
     }
 
-    private  List<Branch> MapFromBranchesDtoToBranches(List<BranchDto> result) {
+    private List<Branch> MapFromBranchesDtoToBranches(List<BranchDto> result) {
         return result.stream()
                 .map(r -> new Branch(r.name(), r.commit().sha()))
                 .toList();
