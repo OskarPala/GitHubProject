@@ -11,7 +11,7 @@ public interface GitHubApiProxy {
 
     // GET https://api.github.com/users/USERNAME/repos
     @GetMapping("users/{userName}/repos")
-    List<ServiceRepositoryDto> getRepos(@PathVariable("userName") String userName);
+    List<GitHubRepositoriesDto> getRepos(@PathVariable("userName") String userName);
 
 
 // GET  https://api.github.com/repos/OWNER/REPO/branches
