@@ -7,6 +7,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.githubproject.GitHubProxyMapper.mapFromBranchesDtoToBranches;
+import static com.githubproject.GitHubProxyMapper.mapFromGitHubRepositoryDtoToGitHubRepository;
+
 @Log4j2
 @Service
 public class GitHubService {
@@ -24,33 +27,20 @@ public class GitHubService {
                 .collect(Collectors.toList());
     }
 
-    private List<GitHubRepository> getAllFilteredRepository(String username) {
-        List<GitHubRepositoriesDto> results = gitHubApiProxy.getRepos(username);
-        List<GitHubRepositoriesDto> notForkRepositories = getNotForkRepositories(results);
-        return mapFromServiceRepositoryDtoToGitHubRepository(notForkRepositories);
-    }
-
-    private List<GitHubRepository> mapFromServiceRepositoryDtoToGitHubRepository(List<GitHubRepositoriesDto> notForkRepositories) {
-        return notForkRepositories.stream()
-                .map(repository ->
-                        new GitHubRepository(repository.name(), repository.owner().login()))
-                .collect(Collectors.toList());
-    }
-
-    private List<GitHubRepositoriesDto> getNotForkRepositories(List<GitHubRepositoriesDto> results) {
+    private List<GitHubRepositoryDto> getNotForkRepositories(List<GitHubRepositoryDto> results) {
         return results.stream()
-                .filter(gitHubRepositoriesDto -> !gitHubRepositoriesDto.fork())
+                .filter(gitHubRepositoryDto -> !gitHubRepositoryDto.fork())
                 .collect(Collectors.toList());
     }
 
     private List<Branch> getAllRepositoryBranches(String owner, String repoName) {
         List<BranchDto> result = gitHubApiProxy.getRepoDetails(owner, repoName);
-        return MapFromBranchesDtoToBranches(result);
+        return mapFromBranchesDtoToBranches(result);
     }
 
-    private List<Branch> MapFromBranchesDtoToBranches(List<BranchDto> result) {
-        return result.stream()
-                .map(r -> new Branch(r.name(), r.commit().sha()))
-                .toList();
+    private List<GitHubRepository> getAllFilteredRepository(String username) {
+        List<GitHubRepositoryDto> results = gitHubApiProxy.getRepos(username);
+        List<GitHubRepositoryDto> notForkRepositories = getNotForkRepositories(results);
+        return mapFromGitHubRepositoryDtoToGitHubRepository(notForkRepositories);
     }
 }

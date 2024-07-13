@@ -1,4 +1,4 @@
-package com.githubproject;
+package com.githubproject.dto.response;
 
 import java.util.List;
 
