@@ -16,7 +16,6 @@ public class GitHubProxyService {
         this.gitHubApiProxy = gitHubApiProxy;
     }
 
-
     List<GitHubRepositoryDto> makeGetRepositoryRequest(String username) {
         return gitHubApiProxy.getAllRepositories(username);
     }

@@ -27,5 +27,4 @@ public class GitHubRepositoryMapper {
                 .map(branch -> new BranchResponseDto(branch.name(), branch.sha()))
                 .collect(Collectors.toList());
     }
-
 }

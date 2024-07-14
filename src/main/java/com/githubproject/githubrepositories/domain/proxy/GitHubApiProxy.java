@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
-@FeignClient(value = "github-api-client", url = "https://api.github.com/")
+@FeignClient(value = "github-api-client")
 public interface GitHubApiProxy {
     @GetMapping("users/{userName}/repos")
     List<GitHubRepositoryDto> getAllRepositories(@PathVariable("userName") String userName);
