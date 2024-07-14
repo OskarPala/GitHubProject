@@ -1,4 +1,9 @@
-package com.githubproject;
+package com.githubproject.githubrepositories.domain.service;
+
+import com.githubproject.githubrepositories.domain.model.Branch;
+import com.githubproject.githubrepositories.domain.model.GitHubRepository;
+import com.githubproject.githubrepositories.domain.proxy.dto.BranchDto;
+import com.githubproject.githubrepositories.domain.proxy.dto.GitHubRepositoryDto;
 
 import java.util.List;
 import java.util.stream.Collectors;

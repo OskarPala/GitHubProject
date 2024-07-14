@@ -1,4 +1,4 @@
-package com.githubproject;
+package com.githubproject.githubrepositories.domain.model;
 
 import java.util.List;
 

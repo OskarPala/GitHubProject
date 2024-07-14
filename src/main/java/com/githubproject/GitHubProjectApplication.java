@@ -1,5 +1,7 @@
 package com.githubproject;
 
+import com.githubproject.githubrepositories.domain.proxy.GitHubApiProxy;
+import com.githubproject.githubrepositories.domain.service.GitHubRetriever;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -13,7 +15,7 @@ public class GitHubProjectApplication {
     @Autowired
     GitHubApiProxy gitHubApiProxy;
     @Autowired
-    GitHubService gitHubService;
+    GitHubRetriever gitHubProxyService;
 
     public static void main(String[] args) {
         SpringApplication.run(GitHubProjectApplication.class, args);
