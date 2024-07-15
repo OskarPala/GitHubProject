@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ControllerAdvice(assignableTypes = GithubProjectRestController.class)
 @Log4j2
-public class NotExistingUserErrorHandler {
+class NotExistingUserErrorHandler {
     @ExceptionHandler(FeignException.NotFound.class)
     @ResponseBody
     @ResponseStatus(HttpStatus.NOT_FOUND)

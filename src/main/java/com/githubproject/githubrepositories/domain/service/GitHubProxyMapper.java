@@ -8,7 +8,7 @@ import com.githubproject.githubrepositories.domain.proxy.dto.GitHubRepositoryDto
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class GitHubProxyMapper {
+class GitHubProxyMapper {
     public static List<Branch> mapFromBranchesDtoToBranches(List<BranchDto> result) {
         return result.stream()
                 .map(r -> new Branch(r.name(), r.commit().sha()))

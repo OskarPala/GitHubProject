@@ -8,11 +8,12 @@ import com.githubproject.githubrepositories.domain.model.AllInfoResult;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class GitHubRepositoryMapper {
+class GitHubRepositoryMapper {
     public static GetAllRepositoriesResponseDto mapFromAllInfoResulToGetAllRepositoryResponseDto(List<AllInfoResult> allInfoRepositoryList) {
         List<RepositoryResponseDto> response = mapFromAllInfoResultToRepositoryResponseDto(allInfoRepositoryList);
         return new GetAllRepositoriesResponseDto(response);
     }
+
     private static List<RepositoryResponseDto> mapFromAllInfoResultToRepositoryResponseDto(List<AllInfoResult> allInfoRepositoryList) {
         return allInfoRepositoryList.stream()
                 .map(repository -> new RepositoryResponseDto(
@@ -21,6 +22,7 @@ public class GitHubRepositoryMapper {
                         mapBranchToBranchResponseDto(repository)))
                 .collect(Collectors.toList());
     }
+
     private static List<BranchResponseDto> mapBranchToBranchResponseDto(AllInfoResult repository) {
         return repository.branch()
                 .stream()

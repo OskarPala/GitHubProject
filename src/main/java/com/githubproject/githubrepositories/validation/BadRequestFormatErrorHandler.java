@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ControllerAdvice(assignableTypes = GithubProjectRestController.class)
 @Log4j2
-public class BadRequestFormatErrorHandler {
+class BadRequestFormatErrorHandler {
 
     @ExceptionHandler(BadRequestException.class)
     @ResponseBody

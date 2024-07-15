@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class GitHubProxyService {
+class GitHubProxyService {
 
     private final GitHubApiProxy gitHubApiProxy;
 
