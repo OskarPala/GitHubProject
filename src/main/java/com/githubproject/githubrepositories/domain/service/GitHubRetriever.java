@@ -28,8 +28,8 @@ public class GitHubRetriever {
     private List<AllInfoResult> createAllInfoResult(List<GitHubRepository> results) {
         return results.stream()
                 .map(repository -> new AllInfoResult(
-                        repository.repositoryName(),
-                        repository.owner(),
+                        repository.getName(),
+                        repository.getOwner(),
                         getMappedBranches(repository)))
                 .collect(Collectors.toList());
     }
@@ -51,8 +51,8 @@ public class GitHubRetriever {
 
     private List<BranchDto> getAllBranchesDto(GitHubRepository repository) {
         return gitHubServiceProxy.makeGetBranchesRequest(
-                repository.owner(),
-                repository.repositoryName());
+                repository.getOwner(),
+                repository.getName());
     }
 
     private List<GitHubRepositoryDto> getFilteredRepositories(String username) {
