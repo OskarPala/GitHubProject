@@ -1,4 +1,4 @@
-package com.githubproject.githubrepositories.infrastructure.controller.dto;
+package com.githubproject.githubrepositories.infrastructure.controller.dto.response.proxy;
 
 import java.util.List;
 

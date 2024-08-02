@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 public class GitHubRetriever {
     private final GitHubProxyService gitHubServiceProxy;
 
-    public GitHubRetriever(GitHubProxyService gitHubServiceProxy) {
+    private GitHubRetriever(GitHubProxyService gitHubServiceProxy) {
         this.gitHubServiceProxy = gitHubServiceProxy;
     }
 
