@@ -21,18 +21,17 @@ public class GitHubRepository {
     @Column(nullable = false)
     String name;
 
-
     public GitHubRepository() {
     }
 
-    public GitHubRepository(String name, String owner) {
-        this.name = name;
+    public GitHubRepository(String owner, String name) {
         this.owner = owner;
+        this.name = name;
     }
 
-    public GitHubRepository(Long id, String name, String owner) {
+    public GitHubRepository(Long id, String owner, String name) {
         this.id = id;
-        this.name = name;
         this.owner = owner;
+        this.name = name;
     }
 }

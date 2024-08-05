@@ -2,15 +2,11 @@ package com.githubproject.githubrepositories.infrastructure.controller;
 
 import com.githubproject.githubrepositories.domain.model.AllInfoResult;
 import com.githubproject.githubrepositories.domain.model.GitHubRepository;
-import com.githubproject.githubrepositories.domain.service.GitHubFromDbRetriever;
-import com.githubproject.githubrepositories.domain.service.GitHubRepositoryAdder;
-import com.githubproject.githubrepositories.domain.service.GitHubRepositoryDeleter;
-import com.githubproject.githubrepositories.domain.service.GitHubRetriever;
+import com.githubproject.githubrepositories.domain.service.*;
 import com.githubproject.githubrepositories.infrastructure.controller.dto.request.CreateRepositoryRequestDto;
-import com.githubproject.githubrepositories.infrastructure.controller.dto.response.db.CreateRepositoryResponseDto;
-import com.githubproject.githubrepositories.infrastructure.controller.dto.response.db.DeleteRepositoryResponseDto;
-import com.githubproject.githubrepositories.infrastructure.controller.dto.response.db.GetAllRepositoryResponseDto;
-import com.githubproject.githubrepositories.infrastructure.controller.dto.response.db.GitHubRepositoryDto;
+import com.githubproject.githubrepositories.infrastructure.controller.dto.request.PartiallyUpdateRepositoryRequestDto;
+import com.githubproject.githubrepositories.infrastructure.controller.dto.request.UpdateRepositoryRequestDto;
+import com.githubproject.githubrepositories.infrastructure.controller.dto.response.db.*;
 import com.githubproject.githubrepositories.infrastructure.controller.dto.response.proxy.GetAllRepositoriesResponseDto;
 import com.githubproject.githubrepositories.validation.BadRequestException;
 import jakarta.validation.Valid;
@@ -34,6 +30,7 @@ public class GithubProjectRestController {
     private final GitHubFromDbRetriever gitHubFromDbRetriever;
     private final GitHubRepositoryDeleter gitHubRepositoryDeleter;
     private final GitHubRepositoryAdder gitHubRepositoryAdder;
+    private final GitHubRepositoryUpdater gitHubRepositoryUpdater;
 
 
     @GetMapping("/{userName}")
@@ -80,5 +77,27 @@ public class GithubProjectRestController {
         CreateRepositoryResponseDto body = mapFromGitHubRepositoryToCreateRepositoryResponseDto(savedRepository);
         return ResponseEntity.ok(body);
     }
+
+    @PutMapping("/database/{id}")
+    public ResponseEntity<UpdateRepositoryResponseDto> update(@PathVariable Long id,
+                                                              @RequestBody @Valid UpdateRepositoryRequestDto request) {
+
+        GitHubRepository newRepository = mapFromUpdateRepositoryRequestDtoToGitHubRepository(request);
+        gitHubRepositoryUpdater.updateById(id, newRepository);
+        UpdateRepositoryResponseDto body = mapFromGitHubRepositoryToUpdateRepositoryResponseDto(id,newRepository);
+        return ResponseEntity.ok(body);
+    }
+
+    @PatchMapping("/database/{id}")
+    public ResponseEntity<PartiallyUpdateRepositoryResponseDto> partiallyUpdateRepository(
+            @PathVariable Long id,
+            @RequestBody PartiallyUpdateRepositoryRequestDto request) {
+        GitHubRepository updatedRepository = mapFromPartiallyUpdateRepositoryResponseDtoToGitHubRepository(request);
+        GitHubRepository savedRepository = gitHubRepositoryUpdater.updatePartiallyById(id, updatedRepository);
+        PartiallyUpdateRepositoryResponseDto body = mapFromGitHubRepositoryToPartiallyUpdateRepositoryRequestDto(savedRepository);
+        return ResponseEntity.ok(body);
+    }
+
+
 }
 

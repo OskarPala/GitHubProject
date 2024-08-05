@@ -25,7 +25,7 @@ public class GitHubFromDbRetriever {
 
     public GitHubRepository findById(Long id) {
         return githubDbRepository.findById(id)
-                .orElseThrow(() -> new RepositoryNotFoundException("Song with id: " + id + "not found"));
+                .orElseThrow(() -> new RepositoryNotFoundException("Song with id: " + id + " not found"));
     }
 
     public void existById(Long id) {
