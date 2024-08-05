@@ -15,14 +15,14 @@ import java.util.stream.Collectors;
 @Log4j2
 @Service
 @AllArgsConstructor
-public class GitHubRetriever {
-    private final GitHubProxyService gitHubServiceProxy;
-    private final GitHubRepositoryAdder gitHubRepositoryAdder;
+public class GitRepositoryRetriever {
+    private final ProxyService gitHubServiceProxy;
+    private final RepositoryAdder repositoryAdder;
 
 
     public List<AllInfoResult> getAllInfoResultsAndSaveToDb(String userName) {
         List<GitHubRepository> results = getMappedRepositories(userName);
-        gitHubRepositoryAdder.addAllRepositoriesToDatabase(results);
+        repositoryAdder.addAllRepositoriesToDatabase(results);
         return createAllInfoResult(results);
     }
 
@@ -37,7 +37,7 @@ public class GitHubRetriever {
 
     private List<GitHubRepository> getMappedRepositories(String userName) {
         List<GitHubRepositoryDto> filteredRepository = getFilteredRepositories(userName);
-        return GitHubProxyMapper.mapFromGitHubRepositoryDtoToGitHubRepository(filteredRepository);
+        return ProxyMapper.mapFromGitHubRepositoryDtoToGitHubRepository(filteredRepository);
     }
 
     private List<GitHubRepositoryDto> getAllRepositories(String username) {
@@ -47,7 +47,7 @@ public class GitHubRetriever {
 
     private List<Branch> getMappedBranches(GitHubRepository repository) {
         List<BranchDto> allRepositoryBranches = getAllBranchesDto(repository);
-        return GitHubProxyMapper.mapFromBranchesDtoToBranches(allRepositoryBranches);
+        return ProxyMapper.mapFromBranchesDtoToBranches(allRepositoryBranches);
     }
 
     private List<BranchDto> getAllBranchesDto(GitHubRepository repository) {

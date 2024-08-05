@@ -8,17 +8,17 @@ import org.springframework.stereotype.Service;
 @Service
 @Log4j2
 @Transactional
-public class GitHubRepositoryDeleter {
+public class RepositoryDeleter {
     private final GitHubDbRepository gitHubDbRepository;
-    private final GitHubFromDbRetriever gitHubFromDbRetriever;
+    private final RepositoryFromDbRetriever repositoryFromDbRetriever;
 
-    public GitHubRepositoryDeleter(GitHubDbRepository gitHubDbRepository, GitHubFromDbRetriever gitHubFromDbRetriever) {
+    public RepositoryDeleter(GitHubDbRepository gitHubDbRepository, RepositoryFromDbRetriever repositoryFromDbRetriever) {
         this.gitHubDbRepository = gitHubDbRepository;
-        this.gitHubFromDbRetriever = gitHubFromDbRetriever;
+        this.repositoryFromDbRetriever = repositoryFromDbRetriever;
     }
 
     public void deleteById(Long id){
-        gitHubFromDbRetriever.existById(id);
+        repositoryFromDbRetriever.existById(id);
         log.info("deleting song by Id: "+id);
         gitHubDbRepository.deleteById(id);
     }

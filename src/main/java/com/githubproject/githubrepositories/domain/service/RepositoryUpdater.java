@@ -11,17 +11,17 @@ import org.springframework.stereotype.Service;
 @Log4j2
 @AllArgsConstructor
 @Transactional
-public class GitHubRepositoryUpdater {
+public class RepositoryUpdater {
     private final GitHubDbRepository gitHubDbRepository;
-    private final GitHubFromDbRetriever gitHubFromDbRetriever;
+    private final RepositoryFromDbRetriever repositoryFromDbRetriever;
 
     public void updateById(Long id, GitHubRepository newRepository) {
-        gitHubFromDbRetriever.existById(id);
+        repositoryFromDbRetriever.existById(id);
         gitHubDbRepository.updateById(id, newRepository);
     }
 
     public GitHubRepository updatePartiallyById(Long id, GitHubRepository repositoryFromRequest) {
-        GitHubRepository repositoryFromDatabase = gitHubFromDbRetriever.findById(id);
+        GitHubRepository repositoryFromDatabase = repositoryFromDbRetriever.findById(id);
         GitHubRepository.GitHubRepositoryBuilder builder = GitHubRepository.builder();
         builder.id(repositoryFromDatabase.getId());
         if (repositoryFromRequest.getOwner() != null) {

@@ -11,10 +11,10 @@ import java.util.List;
 
 @Service
 @Log4j2
-public class GitHubFromDbRetriever {
+public class RepositoryFromDbRetriever {
     private final GitHubDbRepository githubDbRepository;
 
-    public GitHubFromDbRetriever(GitHubDbRepository githubDbRepository) {
+    public RepositoryFromDbRetriever(GitHubDbRepository githubDbRepository) {
         this.githubDbRepository = githubDbRepository;
     }
 

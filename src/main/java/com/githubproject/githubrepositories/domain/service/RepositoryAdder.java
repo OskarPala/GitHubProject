@@ -11,10 +11,10 @@ import java.util.List;
 @Log4j2
 @Service
 @Transactional
-public class GitHubRepositoryAdder {
+public class RepositoryAdder {
     private final GitHubDbRepository gitHubDbRepository;
 
-    public GitHubRepositoryAdder(GitHubDbRepository gitHubDbRepository) {
+    public RepositoryAdder(GitHubDbRepository gitHubDbRepository) {
         this.gitHubDbRepository = gitHubDbRepository;
     }
 

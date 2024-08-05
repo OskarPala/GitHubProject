@@ -8,11 +8,11 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-class GitHubProxyService {
+class ProxyService {
 
     private final GitHubApiProxy gitHubApiProxy;
 
-    public GitHubProxyService(GitHubApiProxy gitHubApiProxy) {
+    public ProxyService(GitHubApiProxy gitHubApiProxy) {
         this.gitHubApiProxy = gitHubApiProxy;
     }
 

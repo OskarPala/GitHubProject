@@ -26,11 +26,11 @@ import static com.githubproject.githubrepositories.infrastructure.controller.Git
 @Log4j2
 @AllArgsConstructor
 public class GithubProjectRestController {
-    private final GitHubRetriever gitHubProxyService;
-    private final GitHubFromDbRetriever gitHubFromDbRetriever;
-    private final GitHubRepositoryDeleter gitHubRepositoryDeleter;
-    private final GitHubRepositoryAdder gitHubRepositoryAdder;
-    private final GitHubRepositoryUpdater gitHubRepositoryUpdater;
+    private final GitRepositoryRetriever gitHubProxyService;
+    private final RepositoryFromDbRetriever repositoryFromDbRetriever;
+    private final RepositoryDeleter repositoryDeleter;
+    private final RepositoryAdder repositoryAdder;
+    private final RepositoryUpdater repositoryUpdater;
 
 
     @GetMapping("/{userName}")
@@ -48,7 +48,7 @@ public class GithubProjectRestController {
 
     @GetMapping("/database")
     public ResponseEntity<GetAllRepositoryResponseDto> getAllRepositoriesFromDb(Pageable pageable) {
-        List<GitHubRepository> allRepos = gitHubFromDbRetriever.findAll(pageable);
+        List<GitHubRepository> allRepos = repositoryFromDbRetriever.findAll(pageable);
         GetAllRepositoryResponseDto allRepositoryDto = mapFromGitHubRepositoryToGetAllRepositoryResponseDto(allRepos);
         return ResponseEntity.ok(allRepositoryDto);
     }
@@ -56,7 +56,7 @@ public class GithubProjectRestController {
 
     @GetMapping("/database/{id}")
     public ResponseEntity<GitHubRepositoryDto> getRepositoryFromDbById(@PathVariable Long id) {
-        GitHubRepository repositoryById = gitHubFromDbRetriever.findById(id);
+        GitHubRepository repositoryById = repositoryFromDbRetriever.findById(id);
         GitHubRepositoryDto repositoryDto = mapFromGitHubRepositoryToGitHubRepositoryDto(repositoryById);
         return ResponseEntity.ok(repositoryDto);
     }
@@ -64,7 +64,7 @@ public class GithubProjectRestController {
 
     @DeleteMapping("/database/{id}")
     public ResponseEntity<DeleteRepositoryResponseDto> deleteRepositoryFromDbByUsingId(@PathVariable Long id) {
-        gitHubRepositoryDeleter.deleteById(id);
+        repositoryDeleter.deleteById(id);
         DeleteRepositoryResponseDto body = mapFromGitHubRepositoryToDeleteRepositoryResponseDto(id);
         return ResponseEntity.ok(body);
 
@@ -73,7 +73,7 @@ public class GithubProjectRestController {
     @PostMapping("/database")
     public ResponseEntity<CreateRepositoryResponseDto> postRepository(@RequestBody @Valid CreateRepositoryRequestDto request) {
         GitHubRepository repository = mapFromCreateRepositoryRequestDtoToGitHubRepository(request);
-        GitHubRepository savedRepository = gitHubRepositoryAdder.addRepository(repository);
+        GitHubRepository savedRepository = repositoryAdder.addRepository(repository);
         CreateRepositoryResponseDto body = mapFromGitHubRepositoryToCreateRepositoryResponseDto(savedRepository);
         return ResponseEntity.ok(body);
     }
@@ -83,7 +83,7 @@ public class GithubProjectRestController {
                                                               @RequestBody @Valid UpdateRepositoryRequestDto request) {
 
         GitHubRepository newRepository = mapFromUpdateRepositoryRequestDtoToGitHubRepository(request);
-        gitHubRepositoryUpdater.updateById(id, newRepository);
+        repositoryUpdater.updateById(id, newRepository);
         UpdateRepositoryResponseDto body = mapFromGitHubRepositoryToUpdateRepositoryResponseDto(id,newRepository);
         return ResponseEntity.ok(body);
     }
@@ -93,7 +93,7 @@ public class GithubProjectRestController {
             @PathVariable Long id,
             @RequestBody PartiallyUpdateRepositoryRequestDto request) {
         GitHubRepository updatedRepository = mapFromPartiallyUpdateRepositoryResponseDtoToGitHubRepository(request);
-        GitHubRepository savedRepository = gitHubRepositoryUpdater.updatePartiallyById(id, updatedRepository);
+        GitHubRepository savedRepository = repositoryUpdater.updatePartiallyById(id, updatedRepository);
         PartiallyUpdateRepositoryResponseDto body = mapFromGitHubRepositoryToPartiallyUpdateRepositoryRequestDto(savedRepository);
         return ResponseEntity.ok(body);
     }
