@@ -13,6 +13,6 @@ public interface GitHubApiProxy {
     @GetMapping("users/{userName}/repos")
     List<GitHubRepositoryDto> getAllRepositories(@PathVariable("userName") String userName);
 
-    @GetMapping("/repos/{owner}/{repo}/branches")
+    @GetMapping("/repos/{repo}/{owner}/branches")
     List<BranchDto> getAllBranches(@PathVariable("owner") String owner, @PathVariable("repo") String repoName);
 }

@@ -20,7 +20,7 @@ public class GitHubRetriever {
     private final GitHubRepositoryAdder gitHubRepositoryAdder;
 
 
-    public List<AllInfoResult> getAllInfoResultsAndSaveToDB(String userName) {
+    public List<AllInfoResult> getAllInfoResultsAndSaveToDb(String userName) {
         List<GitHubRepository> results = getMappedRepositories(userName);
         gitHubRepositoryAdder.addAllRepositoriesToDatabase(results);
         return createAllInfoResult(results);
