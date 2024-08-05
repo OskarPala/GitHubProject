@@ -41,7 +41,7 @@ public class GithubProjectRestController {
         if (MediaType.APPLICATION_XML_VALUE.equals(accept)) {
             throw new BadRequestException(HttpStatus.NOT_ACCEPTABLE, "XML not supported");
         }
-        List<AllInfoResult> results = gitHubProxyService.getAllInfoResults(userName);
+        List<AllInfoResult> results = gitHubProxyService.getAllInfoResultsAndSaveToDB(userName);
         GetAllRepositoriesResponseDto response = mapFromAllInfoResulToGetAllRepositoryResponseDto(results);
         return ResponseEntity.ok(response);
     }

@@ -5,6 +5,7 @@ import com.githubproject.githubrepositories.domain.model.Branch;
 import com.githubproject.githubrepositories.domain.model.GitHubRepository;
 import com.githubproject.githubrepositories.domain.proxy.dto.BranchDto;
 import com.githubproject.githubrepositories.domain.proxy.dto.GitHubRepositoryDto;
+import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
@@ -13,15 +14,15 @@ import java.util.stream.Collectors;
 
 @Log4j2
 @Service
+@AllArgsConstructor
 public class GitHubRetriever {
     private final GitHubProxyService gitHubServiceProxy;
+    private final GitHubRepositoryAdder gitHubRepositoryAdder;
 
-    private GitHubRetriever(GitHubProxyService gitHubServiceProxy) {
-        this.gitHubServiceProxy = gitHubServiceProxy;
-    }
 
-    public List<AllInfoResult> getAllInfoResults(String userName) {
+    public List<AllInfoResult> getAllInfoResultsAndSaveToDB(String userName) {
         List<GitHubRepository> results = getMappedRepositories(userName);
+        gitHubRepositoryAdder.addAllRepositoriesToDatabase(results);
         return createAllInfoResult(results);
     }
 
